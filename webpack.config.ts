@@ -2,11 +2,21 @@
 
 const path = require("path");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
+require("dotenv").config();
 
 const production = process.env.NODE_ENV === "production";
 
 module.exports = {
   mode: production ? "production" : "development",
+  devtool: "source-map",
+  devServer: {
+    proxy: {
+      "/": {
+        target: process.env.SERVER_URL,
+        changeOrigin: true,
+      },
+    },
+  },
   entry: {
     main: "./src/index.tsx",
   },
