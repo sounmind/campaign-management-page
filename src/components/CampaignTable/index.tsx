@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import CampaignContext from "../../context";
+import Button from "../shared/Button";
 import Container from "../shared/Container";
 import ErrorMessage from "../shared/ErrorMessage";
 import Loading from "../shared/Loading";
@@ -19,9 +20,11 @@ const Item = styled.div<{ flex: number; textAlign: string }>`
 
 const HeaderItem = styled(Item)``;
 
-const Campaign = styled(Container)``;
-
-const CampaignItem = styled(Item)``;
+const Campaign = styled(Container)`
+  width: 100%;
+  height: 100px;
+  align-items: center;
+`;
 
 const CAMPAIGN_ITEMS = [
   "캠페인",
@@ -74,9 +77,28 @@ const CampaignTable = () => {
           );
         })}
       </Header>
-      {campaignInfo.data.map((campaign) => (
-        <Campaign key={campaign._id} />
-      ))}
+      {campaignInfo.data.map(
+        ({ _id: id, title, reqruitCounts, type: { text } }) => (
+          <Campaign justifyContent="space-between" key={id}>
+            <div style={{ flex: 2.5, fontSize: "15px" }}>{title}</div>
+            <div style={{ display: "flex", flex: 1.5, fontSize: "15px" }}>
+              {text}
+            </div>
+            <div style={{ flex: 1, textAlign: "center" }}>
+              <Button background="black">선발하기</Button>
+            </div>
+            <div style={{ flex: 1, textAlign: "center", fontSize: "15px" }}>
+              {reqruitCounts}명
+            </div>
+            <div style={{ flex: 1, textAlign: "center" }}>
+              <Button background="white">확인</Button>
+            </div>
+            <div style={{ flex: 1, textAlign: "center" }}>
+              <Button background="white">확인</Button>
+            </div>
+          </Campaign>
+        )
+      )}
     </>
   );
 };
