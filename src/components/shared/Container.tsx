@@ -7,8 +7,9 @@ interface ContainerProps {
 }
 
 const Container = styled.div<ContainerProps>`
-  justify-content: ${({ justifyContent }) => justifyContent || "flexStart"};
-  align-items: ${({ alignItems }) => alignItems || "flexStart"};
+  display: flex;
+  justify-content: ${({ justifyContent }) => justifyContent || "start"};
+  align-items: ${({ alignItems }) => alignItems || "start"};
   flex-direction: ${({ flexDirection }) => flexDirection || "row"};
 `;
 
