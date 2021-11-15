@@ -1,4 +1,6 @@
-export default {
+import { ICampaignInfo } from "../types/index";
+
+const mockCampaignInfo: ICampaignInfo = {
   data: [
     {
       _id: "6136d368c570cc67f5b125c2",
@@ -434,3 +436,5 @@ export default {
     },
   ],
 };
+
+export default mockCampaignInfo;

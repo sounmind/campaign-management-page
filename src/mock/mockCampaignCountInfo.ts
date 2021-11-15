@@ -1,4 +1,6 @@
-export default {
+import { ICampaignCountInfo } from "../types/index";
+
+const mockCampaignCountInfo: ICampaignCountInfo = {
   data: {
     campaigns: {
       status: {
@@ -15,3 +17,5 @@ export default {
     reports: 7,
   },
 };
+
+export default mockCampaignCountInfo;
