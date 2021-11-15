@@ -21,7 +21,7 @@ export interface ICampaignDatum {
   title: string;
   reqruitCounts: number;
   type: {
-    text: string;
+    text: "instagram" | "blog";
   };
 }
 
