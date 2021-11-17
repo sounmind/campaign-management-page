@@ -28,11 +28,3 @@ export interface ICampaignDatum {
 export interface ICampaignInfo {
   data: ICampaignDatum[];
 }
-
-export interface ICampaign {
-  status: string;
-  data?: {
-    campaignInfo?: ICampaignInfo;
-    campaignCountInfo?: ICampaignCountInfo;
-  };
-}
