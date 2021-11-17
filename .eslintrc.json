@@ -24,7 +24,6 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "quotes": ["error", "double"],
-    "max-len": ["warn", { "code": 80 }],
     "react/function-component-definition": [
       "error",
       { "namedComponents": "arrow-function" }
