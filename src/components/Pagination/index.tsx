@@ -1,8 +1,34 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import { CampaignInfoContext } from "../../context";
 import Container from "../shared/Container";
+import ErrorMessage from "../shared/ErrorMessage";
 
-const Wrapper = styled(Container)``;
+const Wrapper = styled(Container)`
+  width: 100%;
+  justify-content: center;
+  gap: 20px;
+`;
+
+const MoveButton = styled.button`
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+`;
+
+const PageButton = styled.button<{ currentPage: boolean }>`
+  width: 24px;
+  height: 24px;
+  padding: 4px 9px 5px;
+  border: 0;
+  border-radius: 12px;
+  font-size: 10px;
+
+  ${({ currentPage, theme: { color } }) =>
+    currentPage
+      ? `background-color: ${color.black}; color: white`
+      : `background-color: ${color.middleGrayBackground}; color: white`}
+`;
 
 interface PaginationProps {
   page: number;
@@ -11,27 +37,53 @@ interface PaginationProps {
 
 const TOTAL_PAGINATION = 5;
 
-const Pagination = ({ page, handlePage }: PaginationProps) => { 
-  // 항상 5개 출력
-  // 현재 page 표시
-  // 버튼 클릭 시 page 바뀜
+const Pagination = ({ page, handlePage }: PaginationProps) => {
+  const campaignInfo = useContext(CampaignInfoContext);
 
-  const remained = page % TOTAL_PAGINATION;
-  const currentPageIndex = remained === 0 ? TOTAL_PAGINATION - 1 : remained - 1;
+  if (!campaignInfo) {
+    return (
+      <ErrorMessage>
+        오류로 인하여 페이지 이동 버튼을 표시할 수 없습니다.
+      </ErrorMessage>
+    );
+  }
+
+  const maxPage = Math.ceil(campaignInfo.data.length / 10);
+  const remained =
+    page % TOTAL_PAGINATION === 0 ? TOTAL_PAGINATION : page % TOTAL_PAGINATION;
+  const [startPage, endPage] = [
+    page - remained + 1,
+    Math.min(page - remained + TOTAL_PAGINATION, maxPage),
+  ];
+  const pages = [];
+
+  for (let i = startPage; i <= endPage; i += 1) {
+    pages.push(i);
+  }
 
   return (
     <Wrapper>
-      <button type="button">previous</button>
-      {Array(TOTAL_PAGINATION)
-        .fill(0)
-        .map((_, index) => {
-          if (index === currentPageIndex) {
-            return <div>*{index + 1}*</div>;
-          }
+      <button
+        disabled={page - 1 === 0}
+        onClick={() => handlePage(page - 1)}
+        type="button"
+      >
+        prev
+      </button>
 
-          return <div>{index + 1}</div>;
-        })}
-      <button type="button">next</button>
+      {pages.map((pageNumber) => (
+        <PageButton key={pageNumber} currentPage={pageNumber === page}>
+          {pageNumber}
+        </PageButton>
+      ))}
+
+      <button
+        disabled={page === maxPage}
+        onClick={() => handlePage(page + 1)}
+        type="button"
+      >
+        next
+      </button>
     </Wrapper>
   );
 };
