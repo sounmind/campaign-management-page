@@ -18,7 +18,10 @@ https://user-images.githubusercontent.com/37020415/142465271-500bb684-3557-4f63-
     ```
 
 2. 디렉토리에 `package.json` 파일과 같은 위치에 `.env` 파일을 만들어 api 요청을 위한 url을 작성합니다.  
-작성 예: `https://${SPECIAL_NAME}.s3.ap-northeast-2.amazonaws.com/frontend`
+    작성 예: 
+    ```
+    SERVER_URL=https://${SPECIAL_NAME}.s3.ap-northeast-2.amazonaws.com/frontend`
+    ```
 
 3. 프로젝트 실행에 필요한 dependencies 를 다운로드 받습니다.
     ```shell
