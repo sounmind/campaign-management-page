@@ -8,6 +8,6 @@ export default styled.button<{ background: "black" | "white" }>`
 
   ${({ background, theme }) =>
     background === "black"
-      ? "background-color: black; color: white"
+      ? "background-color: black; color: white; border: 0"
       : `background-color: white; border: 1px solid ${theme.color.grayWhite}`}
 `;

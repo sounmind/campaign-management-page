@@ -10,10 +10,11 @@ const GlobalStyles = createGlobalStyle`
 
   *, *:before, *:after {
     box-sizing: inherit;
+    font-family: 'Noto Sans KR', sans-serif;
   }
 
-  * {
-    font-family: 'Noto Sans KR', sans-serif;
+  button {
+    cursor: pointer;
   }
 
   body {
