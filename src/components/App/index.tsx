@@ -34,7 +34,7 @@ const App = () => {
   }>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     setErrorMessage("");
@@ -58,7 +58,7 @@ const App = () => {
   }, []);
 
   const handlePage = (number: number) => {
-    setPage(number);
+    setCurrentPage(number);
   };
 
   return (
@@ -75,8 +75,11 @@ const App = () => {
                   <Title>캠페인 관리</Title>
                   <ErrorMessage>{errorMessage}</ErrorMessage>
                   <CampaignCountInfo />
-                  <CampaignTable page={page} />
-                  <Pagination page={page} handlePage={handlePage} />
+                  <CampaignTable currentPage={currentPage} />
+                  <Pagination
+                    currentPage={currentPage}
+                    handlePage={handlePage}
+                  />
                 </Main>
               </Container>
             </CampaignCountInfoContext.Provider>
