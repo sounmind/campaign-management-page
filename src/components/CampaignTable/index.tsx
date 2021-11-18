@@ -57,7 +57,7 @@ const CAMPAIGN_ITEMS = [
 
 const ITEM_COUNT_PER_PAGE = 10;
 
-const CampaignTable = () => {
+const CampaignTable: React.FC = () => {
   const { currentPageNumber, campaignInfo } = useCampaignState();
 
   const campaigns = campaignInfo.data.slice(
