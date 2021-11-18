@@ -4,6 +4,7 @@ import { ThemeProvider } from "styled-components";
 
 import App from "./components/App";
 import { CampaignProvier } from "./context";
+
 import GlobalStyles from "./styles/GlobalStyles";
 import theme from "./styles/theme";
 

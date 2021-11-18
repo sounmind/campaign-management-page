@@ -38,7 +38,7 @@ const PageButton = styled.button<{ isCurrentPage: boolean }>`
       : `background-color: ${color.middleGrayBackground}; color: white`}
 `;
 
-const Pagination = () => {
+const Pagination: React.FC = () => {
   const dispatch = useCampaignDispatch();
   const { currentPageNumber, maxPageNumber, currentPaginations } =
     useCampaignState();
