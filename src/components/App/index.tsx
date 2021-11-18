@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
-// import { getCampaignCountInfo, getCampaignInfo } from "../../api";
+
 import CampaignCountInfo from "../CampaignCountInfo";
-import Container from "../shared/Container";
-import ErrorMessage from "../shared/ErrorMessage";
-import theme from "../../styles/theme";
-import GlobalStyles from "../../styles/GlobalStyles";
-import mockCampaignInfo from "../../mock/mockCampaignInfo";
-import mockCampaignCountInfo from "../../mock/mockCampaignCountInfo";
 import CampaignTable from "../CampaignTable";
 import Pagination from "../Pagination";
-import Loading from "../shared/Loading";
 import { CampaignCountInfoContext, CampaignInfoContext } from "../../context";
 import { ICampaignCountInfo, ICampaignInfo } from "../../types";
+import { getCampaignCountInfo, getCampaignInfo } from "../../api";
+
+import Container from "../shared/Container";
+import ErrorMessage from "../shared/ErrorMessage";
+import Loading from "../shared/Loading";
+import theme from "../../styles/theme";
+import GlobalStyles from "../../styles/GlobalStyles";
 
 const Main = styled(Container)`
   position: relative;
@@ -42,11 +42,9 @@ const App = () => {
     const initializeCampaign = async () => {
       try {
         setIsLoading(true);
-        // const campaignInfo = await getCampaignInfo();
-        // const campaignCountInfo = await getCampaignCountInfo();
 
-        const campaignInfo = mockCampaignInfo;
-        const campaignCountInfo = mockCampaignCountInfo;
+        const campaignInfo = await getCampaignInfo();
+        const campaignCountInfo = await getCampaignCountInfo();
 
         setInfo({ campaignInfo, campaignCountInfo });
       } catch (error) {
