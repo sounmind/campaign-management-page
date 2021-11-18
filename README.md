@@ -2,6 +2,8 @@
 
 캠페인 관리 페이지
 
+https://user-images.githubusercontent.com/37020415/142465271-500bb684-3557-4f63-8105-b4ae0277302f.mov
+
 ## 기능
 
 - 첫 렌더링 시 자체 API에 의해 캠페인 정보를 볼 수 있습니다.
