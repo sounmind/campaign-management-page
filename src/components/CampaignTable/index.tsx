@@ -2,10 +2,13 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 
 import { CampaignInfoContext } from "../../context";
+import { CampaignMediaType } from "../../types";
 
 import Button from "../shared/Button";
 import Container from "../shared/Container";
 import ErrorMessage from "../shared/ErrorMessage";
+import BlogIcon from "./icons/ic-blog.svg";
+import InstagramIcon from "./icons/ic-insta.svg";
 
 const Header = styled(Container)`
   width: 100%;
@@ -19,12 +22,28 @@ const Item = styled.div<{ flex: number; textAlign: string }>`
   text-align: ${({ textAlign }) => textAlign};
 `;
 
-const HeaderItem = styled(Item)``;
+const CampaignList = styled(Container)`
+  width: 100%;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+`;
 
 const Campaign = styled(Container)`
   width: 100%;
   height: 100px;
   align-items: center;
+  border-top: 1px solid ${({ theme }) => theme.color.grayWhite};
+  border-bottom: 1px solid ${({ theme }) => theme.color.grayWhite};
+`;
+
+const CampaignItem = styled(Container)<{
+  flex?: number;
+  textAlign?: string;
+  fontSize?: string;
+  gap?: string;
+}>`
+  ${({ flex, textAlign, fontSize, gap }) =>
+    `flex: ${flex}; textAlign: ${textAlign}; fontSize: ${fontSize}; gap: ${gap}`}
 `;
 
 const CAMPAIGN_ITEMS = [
@@ -37,10 +56,12 @@ const CAMPAIGN_ITEMS = [
 ];
 
 interface CampaignTableProps {
-  page: number;
+  currentPage: number;
 }
 
-const CampaignTable = ({ page }: CampaignTableProps) => {
+const ITEM_COUNT_PER_PAGE = 10;
+
+const CampaignTable = ({ currentPage }: CampaignTableProps) => {
   const campaignInfoContext = useContext(CampaignInfoContext);
 
   if (!campaignInfoContext || !campaignInfoContext.data) {
@@ -48,9 +69,31 @@ const CampaignTable = ({ page }: CampaignTableProps) => {
   }
 
   const campaigns = campaignInfoContext.data.slice(
-    (page - 1) * 10,
-    (page - 1) * 10 + 10
+    (currentPage - 1) * ITEM_COUNT_PER_PAGE,
+    currentPage * ITEM_COUNT_PER_PAGE
   );
+
+  const printCampaignType = (text: CampaignMediaType) => {
+    if (text === "blog") {
+      return (
+        <>
+          <BlogIcon />
+          블로그
+        </>
+      );
+    }
+
+    if (text === "instagram") {
+      return (
+        <>
+          <InstagramIcon />
+          인스타그램
+        </>
+      );
+    }
+
+    return <ErrorMessage>잘못된 캠페인 유형: {text}</ErrorMessage>;
+  };
 
   return (
     <>
@@ -69,33 +112,42 @@ const CampaignTable = ({ page }: CampaignTableProps) => {
           }
 
           return (
-            <HeaderItem flex={flex} textAlign={textAlign} key={item}>
+            <Item flex={flex} textAlign={textAlign} key={item}>
               {item}
-            </HeaderItem>
+            </Item>
           );
         })}
       </Header>
 
-      {campaigns.map(({ _id: id, title, reqruitCounts, type: { text } }) => (
-        <Campaign justifyContent="space-between" key={id}>
-          <div style={{ flex: 2.5, fontSize: "15px" }}>{title}</div>
-          <div style={{ display: "flex", flex: 1.5, fontSize: "15px" }}>
-            {text}
-          </div>
-          <div style={{ flex: 1, textAlign: "center" }}>
-            <Button background="black">선발하기</Button>
-          </div>
-          <div style={{ flex: 1, textAlign: "center", fontSize: "15px" }}>
-            {reqruitCounts}명
-          </div>
-          <div style={{ flex: 1, textAlign: "center" }}>
-            <Button background="white">확인</Button>
-          </div>
-          <div style={{ flex: 1, textAlign: "center" }}>
-            <Button background="white">확인</Button>
-          </div>
-        </Campaign>
-      ))}
+      <CampaignList flexDirection="column">
+        {campaigns.map(({ _id: id, title, reqruitCounts, type: { text } }) => (
+          <Campaign justifyContent="space-between" key={id}>
+            <CampaignItem flex={2.5} fontSize="15px">
+              {title}
+            </CampaignItem>
+            <CampaignItem flex={1.5} fontSize="15px" gap="8px">
+              {printCampaignType(text)}
+            </CampaignItem>
+            <CampaignItem justifyContent="center" flex={1} textAlign="center">
+              <Button background="black">선발하기</Button>
+            </CampaignItem>
+            <CampaignItem
+              justifyContent="center"
+              flex={1}
+              textAlign="center"
+              fontSize="15px"
+            >
+              {reqruitCounts}명
+            </CampaignItem>
+            <CampaignItem justifyContent="center" flex={1} textAlign="center">
+              <Button background="white">확인</Button>
+            </CampaignItem>
+            <CampaignItem justifyContent="center" flex={1} textAlign="center">
+              <Button background="white">확인</Button>
+            </CampaignItem>
+          </Campaign>
+        ))}
+      </CampaignList>
     </>
   );
 };

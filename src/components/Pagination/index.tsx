@@ -5,10 +5,13 @@ import { CampaignInfoContext } from "../../context";
 
 import Container from "../shared/Container";
 import ErrorMessage from "../shared/ErrorMessage";
+import ArrowLeft from "./icons/page-arrow-l.svg";
+import ArrowRight from "./icons/page-arrow-r.svg";
 
 const Wrapper = styled(Container)`
   width: 100%;
   justify-content: center;
+  margin: 40px;
   gap: 20px;
 `;
 
@@ -16,6 +19,9 @@ const MoveButton = styled.button`
   width: 20px;
   height: 20px;
   object-fit: contain;
+  border: 0;
+  background-color: transparent;
+  padding: 0;
 `;
 
 const PageButton = styled.button<{ currentPage: boolean }>`
@@ -33,13 +39,14 @@ const PageButton = styled.button<{ currentPage: boolean }>`
 `;
 
 interface PaginationProps {
-  page: number;
+  currentPage: number;
+  // eslint-disable-next-line no-unused-vars
   handlePage: (page: number) => void;
 }
 
 const TOTAL_PAGINATION = 5;
 
-const Pagination = ({ page, handlePage }: PaginationProps) => {
+const Pagination = ({ currentPage, handlePage }: PaginationProps) => {
   const campaignInfo = useContext(CampaignInfoContext);
 
   if (!campaignInfo) {
@@ -52,10 +59,12 @@ const Pagination = ({ page, handlePage }: PaginationProps) => {
 
   const maxPage = Math.ceil(campaignInfo.data.length / 10);
   const remained =
-    page % TOTAL_PAGINATION === 0 ? TOTAL_PAGINATION : page % TOTAL_PAGINATION;
+    currentPage % TOTAL_PAGINATION === 0
+      ? TOTAL_PAGINATION
+      : currentPage % TOTAL_PAGINATION;
   const [startPage, endPage] = [
-    page - remained + 1,
-    Math.min(page - remained + TOTAL_PAGINATION, maxPage),
+    currentPage - remained + 1,
+    Math.min(currentPage - remained + TOTAL_PAGINATION, maxPage),
   ];
   const pages = [];
 
@@ -66,27 +75,29 @@ const Pagination = ({ page, handlePage }: PaginationProps) => {
   return (
     <Wrapper>
       <MoveButton
-        direction="left"
-        disabled={page - 1 === 0}
-        onClick={() => handlePage(page - 1)}
+        disabled={currentPage - 1 === 0}
+        onClick={() => handlePage(currentPage - 1)}
         type="button"
       >
-        prev
+        <ArrowLeft />
       </MoveButton>
 
       {pages.map((pageNumber) => (
-        <PageButton key={pageNumber} currentPage={pageNumber === page}>
+        <PageButton
+          onClick={() => handlePage(pageNumber)}
+          key={pageNumber}
+          currentPage={pageNumber === currentPage}
+        >
           {pageNumber}
         </PageButton>
       ))}
 
       <MoveButton
-        direction="right"
-        disabled={page === maxPage}
-        onClick={() => handlePage(page + 1)}
+        disabled={currentPage === maxPage}
+        onClick={() => handlePage(currentPage + 1)}
         type="button"
       >
-        next
+        <ArrowRight />
       </MoveButton>
     </Wrapper>
   );
