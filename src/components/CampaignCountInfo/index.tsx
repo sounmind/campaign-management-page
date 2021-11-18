@@ -1,10 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 
-import { CampaignCountInfoContext } from "../../context";
+import useCampaignState from "../../hooks/useCampaignState";
 
 import Container from "../shared/Container";
-import ErrorMessage from "../shared/ErrorMessage";
 
 const Wrapper = styled(Container)`
   gap: 10px;
@@ -33,14 +32,8 @@ const Count = styled.span`
   font-size: 18px;
 `;
 
-const CampaignCountInfo = () => {
-  const campaignCountInfoContext = useContext(CampaignCountInfoContext);
-
-  if (!campaignCountInfoContext || !campaignCountInfoContext.data) {
-    return (
-      <ErrorMessage>캠페인 데이터를 불러오는데 실패했습니다.</ErrorMessage>
-    );
-  }
+const CampaignCountInfo: React.FC = () => {
+  const { campaignCountInfo } = useCampaignState();
 
   const {
     data: {
@@ -52,7 +45,7 @@ const CampaignCountInfo = () => {
       },
       reports,
     },
-  } = campaignCountInfoContext;
+  } = campaignCountInfo;
 
   const info = {
     "진행 중인 캠페인": `${ongoing}개`,

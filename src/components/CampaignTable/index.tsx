@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 
-import { CampaignInfoContext } from "../../context";
+import useCampaignState from "../../hooks/useCampaignState";
 import { CampaignMediaType } from "../../types";
 
 import Button from "../shared/Button";
@@ -55,22 +55,14 @@ const CAMPAIGN_ITEMS = [
   "보고서",
 ];
 
-interface CampaignTableProps {
-  currentPage: number;
-}
-
 const ITEM_COUNT_PER_PAGE = 10;
 
-const CampaignTable = ({ currentPage }: CampaignTableProps) => {
-  const campaignInfoContext = useContext(CampaignInfoContext);
+const CampaignTable = () => {
+  const { currentPageNumber, campaignInfo } = useCampaignState();
 
-  if (!campaignInfoContext || !campaignInfoContext.data) {
-    return <ErrorMessage>캠페인 정보를 불러올 수 없습니다.</ErrorMessage>;
-  }
-
-  const campaigns = campaignInfoContext.data.slice(
-    (currentPage - 1) * ITEM_COUNT_PER_PAGE,
-    currentPage * ITEM_COUNT_PER_PAGE
+  const campaigns = campaignInfo.data.slice(
+    (currentPageNumber - 1) * ITEM_COUNT_PER_PAGE,
+    currentPageNumber * ITEM_COUNT_PER_PAGE
   );
 
   const printCampaignType = (text: CampaignMediaType) => {
