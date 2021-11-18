@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
+
 import { CampaignInfoContext } from "../../context";
+
 import Container from "../shared/Container";
 import ErrorMessage from "../shared/ErrorMessage";
 
@@ -63,13 +65,14 @@ const Pagination = ({ page, handlePage }: PaginationProps) => {
 
   return (
     <Wrapper>
-      <button
+      <MoveButton
+        direction="left"
         disabled={page - 1 === 0}
         onClick={() => handlePage(page - 1)}
         type="button"
       >
         prev
-      </button>
+      </MoveButton>
 
       {pages.map((pageNumber) => (
         <PageButton key={pageNumber} currentPage={pageNumber === page}>
@@ -77,13 +80,14 @@ const Pagination = ({ page, handlePage }: PaginationProps) => {
         </PageButton>
       ))}
 
-      <button
+      <MoveButton
+        direction="right"
         disabled={page === maxPage}
         onClick={() => handlePage(page + 1)}
         type="button"
       >
         next
-      </button>
+      </MoveButton>
     </Wrapper>
   );
 };
