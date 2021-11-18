@@ -1,3 +1,5 @@
+import { Dispatch } from "react";
+
 export interface ICampaignCountInfo {
   data: {
     campaigns: {
@@ -30,3 +32,25 @@ export interface ICampaignDatum {
 export interface ICampaignInfo {
   data: ICampaignDatum[];
 }
+
+export interface IState {
+  maxPageNumber: number;
+  currentPageNumber: number;
+  currentPaginations: number[];
+  campaignInfo: ICampaignInfo;
+  campaignCountInfo: ICampaignCountInfo;
+}
+
+export type Action =
+  | { type: "SET_PAGE"; payload: number }
+  | { type: "GO_PREVIOUS_PAGE" }
+  | { type: "GO_NEXT_PAGE" }
+  | {
+      type: "UPDATE_CAMPAIGN";
+      payload: {
+        campaignInfo: ICampaignInfo;
+        campaignCountInfo: ICampaignCountInfo;
+      };
+    };
+
+export type CampaignDispatch = Dispatch<Action>;

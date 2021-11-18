@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 
-import { CampaignInfoContext } from "../../context";
+import useCampaignDispatch from "../../hooks/useCampaignDispatch";
+import useCampaignState from "../../hooks/useCampaignState";
 
 import Container from "../shared/Container";
-import ErrorMessage from "../shared/ErrorMessage";
 import ArrowLeft from "./icons/page-arrow-l.svg";
 import ArrowRight from "./icons/page-arrow-r.svg";
 
@@ -24,7 +24,7 @@ const MoveButton = styled.button`
   padding: 0;
 `;
 
-const PageButton = styled.button<{ currentPage: boolean }>`
+const PageButton = styled.button<{ isCurrentPage: boolean }>`
   width: 24px;
   height: 24px;
   padding: 4px 9px 5px;
@@ -32,72 +32,43 @@ const PageButton = styled.button<{ currentPage: boolean }>`
   border-radius: 12px;
   font-size: 10px;
 
-  ${({ currentPage, theme: { color } }) =>
-    currentPage
+  ${({ isCurrentPage, theme: { color } }) =>
+    isCurrentPage
       ? `background-color: ${color.black}; color: white`
       : `background-color: ${color.middleGrayBackground}; color: white`}
 `;
 
-interface PaginationProps {
-  currentPage: number;
-  // eslint-disable-next-line no-unused-vars
-  handlePage: (page: number) => void;
-}
-
-const TOTAL_PAGINATION = 5;
-
-const Pagination = ({ currentPage, handlePage }: PaginationProps) => {
-  const campaignInfo = useContext(CampaignInfoContext);
-
-  if (!campaignInfo) {
-    return (
-      <ErrorMessage>
-        오류로 인하여 페이지 이동 버튼을 표시할 수 없습니다.
-      </ErrorMessage>
-    );
-  }
-
-  const maxPage = Math.ceil(campaignInfo.data.length / 10);
-  const remained =
-    currentPage % TOTAL_PAGINATION === 0
-      ? TOTAL_PAGINATION
-      : currentPage % TOTAL_PAGINATION;
-  const [startPage, endPage] = [
-    currentPage - remained + 1,
-    Math.min(currentPage - remained + TOTAL_PAGINATION, maxPage),
-  ];
-  const pages = [];
-
-  for (let i = startPage; i <= endPage; i += 1) {
-    pages.push(i);
-  }
+const Pagination = () => {
+  const dispatch = useCampaignDispatch();
+  const { currentPageNumber, maxPageNumber, currentPaginations } =
+    useCampaignState();
 
   return (
     <Wrapper>
       <MoveButton
-        disabled={currentPage - 1 === 0}
-        onClick={() => handlePage(currentPage - 1)}
+        disabled={currentPageNumber - 1 === 0}
+        onClick={() => dispatch({ type: "GO_PREVIOUS_PAGE" })}
         type="button"
       >
-        <ArrowLeft />
+        <ArrowLeft opacity={currentPageNumber - 1 === 0 ? 0.3 : 1} />
       </MoveButton>
 
-      {pages.map((pageNumber) => (
+      {currentPaginations.map((pageNumber) => (
         <PageButton
-          onClick={() => handlePage(pageNumber)}
+          onClick={() => dispatch({ type: "SET_PAGE", payload: pageNumber })}
           key={pageNumber}
-          currentPage={pageNumber === currentPage}
+          isCurrentPage={pageNumber === currentPageNumber}
         >
           {pageNumber}
         </PageButton>
       ))}
 
       <MoveButton
-        disabled={currentPage === maxPage}
-        onClick={() => handlePage(currentPage + 1)}
+        disabled={currentPageNumber === maxPageNumber}
+        onClick={() => dispatch({ type: "GO_NEXT_PAGE" })}
         type="button"
       >
-        <ArrowRight />
+        <ArrowRight opacity={currentPageNumber === maxPageNumber ? 0.3 : 1} />
       </MoveButton>
     </Wrapper>
   );
