@@ -16,12 +16,14 @@ export interface ICampaignCountInfo {
   };
 }
 
+export type CampaignMediaType = "instagram" | "blog";
+
 export interface ICampaignDatum {
   _id: string;
   title: string;
   reqruitCounts: number;
   type: {
-    text: "instagram" | "blog";
+    text: CampaignMediaType;
   };
 }
 
