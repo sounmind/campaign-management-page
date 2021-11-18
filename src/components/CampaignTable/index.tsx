@@ -85,6 +85,8 @@ const CampaignTable = ({ currentPage }: CampaignTableProps) => {
         </>
       );
     }
+
+    return <ErrorMessage>잘못된 캠페인 유형: {text}</ErrorMessage>;
   };
 
   return (
