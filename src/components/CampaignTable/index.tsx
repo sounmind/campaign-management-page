@@ -22,12 +22,18 @@ const Item = styled.div<{ flex: number; textAlign: string }>`
   text-align: ${({ textAlign }) => textAlign};
 `;
 
-const HeaderItem = styled(Item)``;
+const CampaignList = styled(Container)`
+  width: 100%;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+`;
 
 const Campaign = styled(Container)`
   width: 100%;
   height: 100px;
   align-items: center;
+  border-top: 1px solid ${({ theme }) => theme.color.grayWhite};
+  border-bottom: 1px solid ${({ theme }) => theme.color.grayWhite};
 `;
 
 const CampaignItem = styled(Container)<{
@@ -106,40 +112,42 @@ const CampaignTable = ({ currentPage }: CampaignTableProps) => {
           }
 
           return (
-            <HeaderItem flex={flex} textAlign={textAlign} key={item}>
+            <Item flex={flex} textAlign={textAlign} key={item}>
               {item}
-            </HeaderItem>
+            </Item>
           );
         })}
       </Header>
 
-      {campaigns.map(({ _id: id, title, reqruitCounts, type: { text } }) => (
-        <Campaign justifyContent="space-between" key={id}>
-          <CampaignItem flex={2.5} fontSize="15px">
-            {title}
-          </CampaignItem>
-          <CampaignItem flex={1.5} fontSize="15px" gap="8px">
-            {printCampaignType(text)}
-          </CampaignItem>
-          <CampaignItem justifyContent="center" flex={1} textAlign="center">
-            <Button background="black">선발하기</Button>
-          </CampaignItem>
-          <CampaignItem
-            justifyContent="center"
-            flex={1}
-            textAlign="center"
-            fontSize="15px"
-          >
-            {reqruitCounts}명
-          </CampaignItem>
-          <CampaignItem justifyContent="center" flex={1} textAlign="center">
-            <Button background="white">확인</Button>
-          </CampaignItem>
-          <CampaignItem justifyContent="center" flex={1} textAlign="center">
-            <Button background="white">확인</Button>
-          </CampaignItem>
-        </Campaign>
-      ))}
+      <CampaignList flexDirection="column">
+        {campaigns.map(({ _id: id, title, reqruitCounts, type: { text } }) => (
+          <Campaign justifyContent="space-between" key={id}>
+            <CampaignItem flex={2.5} fontSize="15px">
+              {title}
+            </CampaignItem>
+            <CampaignItem flex={1.5} fontSize="15px" gap="8px">
+              {printCampaignType(text)}
+            </CampaignItem>
+            <CampaignItem justifyContent="center" flex={1} textAlign="center">
+              <Button background="black">선발하기</Button>
+            </CampaignItem>
+            <CampaignItem
+              justifyContent="center"
+              flex={1}
+              textAlign="center"
+              fontSize="15px"
+            >
+              {reqruitCounts}명
+            </CampaignItem>
+            <CampaignItem justifyContent="center" flex={1} textAlign="center">
+              <Button background="white">확인</Button>
+            </CampaignItem>
+            <CampaignItem justifyContent="center" flex={1} textAlign="center">
+              <Button background="white">확인</Button>
+            </CampaignItem>
+          </Campaign>
+        ))}
+      </CampaignList>
     </>
   );
 };

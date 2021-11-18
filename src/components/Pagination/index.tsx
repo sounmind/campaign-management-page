@@ -11,6 +11,7 @@ import ArrowRight from "./icons/page-arrow-r.svg";
 const Wrapper = styled(Container)`
   width: 100%;
   justify-content: center;
+  margin: 40px;
   gap: 20px;
 `;
 
@@ -39,6 +40,7 @@ const PageButton = styled.button<{ currentPage: boolean }>`
 
 interface PaginationProps {
   currentPage: number;
+  // eslint-disable-next-line no-unused-vars
   handlePage: (page: number) => void;
 }
 
